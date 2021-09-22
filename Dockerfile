@@ -3,7 +3,7 @@ RUN docker-php-ext-install pcntl posix
 
 FROM composer:2 as composer-fetch
 
-ENV COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_HOME="/composer"
+ENV COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_MEMORY_LIMIT=-1 COMPOSER_NO_INTERACTION=1 COMPOSER_HOME="/composer"
 RUN composer global require vimeo/psalm psalm/plugin-symfony psalm/plugin-phpunit weirdan/doctrine-psalm-plugin orklah/psalm-strict-types
 
 FROM php:8-cli-alpine as runtime
@@ -24,6 +24,9 @@ COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # Package container
+
+ENV XDG_CACHE_HOME /cache
+VOLUME ["/cache"]
 
 WORKDIR "/app"
 ENTRYPOINT ["/entrypoint.sh"]
