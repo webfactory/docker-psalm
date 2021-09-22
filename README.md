@@ -30,8 +30,6 @@ To use your own image, use `psalm` instead of `ghcr.io/webfactory/psalm` in the 
 
 This is how we build and publish the image on the GitHub Container Registry (ghcr.io).
 
-`docker build --label org.opencontainers.image.source=https://github.com/webfactory/docker-psalm -t ghcr.io/webfactory/psalm:latest .`
-
-`docker push ghcr.io/webfactory/psalm:latest`
+`./build.sh {psalm-version-number}`
 
 
