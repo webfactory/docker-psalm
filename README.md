@@ -2,6 +2,8 @@
 
 This repository contains everything to build a simple Docker image to run [Psalm](https://github.com/vimeo/psalm/). The image will also include a few Psalm plugins.
 
+The image is built for the `amd64` and `arm64` platforms. A GitHub Actions workflow is used to build the image weekly, so the PHP version used should be up-to-date and new Psalm versions should show up automatically.
+
 ## Running the Published Image
 
 The resulting image is published at https://ghcr.io/webfactory/psalm.
@@ -25,11 +27,3 @@ Review and/or tweak the `Dockerfile` as necessary.
 Then, run `docker build -t psalm .`.
 
 To use your own image, use `psalm` instead of `ghcr.io/webfactory/psalm` in the commands from the previous section.
-
-## Building for GCHR.io
-
-This is how we build and publish the image on the GitHub Container Registry (ghcr.io).
-
-`./build.sh {psalm-version-number}`
-
-
