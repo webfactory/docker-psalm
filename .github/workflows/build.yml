@@ -79,6 +79,7 @@ jobs:
                     docker run --rm build --version | grep -q $PSALM_VERSION
 
             -   name: Push image to registry
+                if: github.event_name != 'pull_request'
                 run: |
                     docker buildx build \
                       --progress plain \
