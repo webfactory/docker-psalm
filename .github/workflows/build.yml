@@ -62,9 +62,6 @@ jobs:
                       --cache-from=ghcr.io/webfactory/psalm:build-cache \
                       --cache-to=type=registry,ref=ghcr.io/webfactory/psalm:build-cache,mode=max,push=true \
                       --pull \
-                      --tag build \
-                      --tag ghcr.io/webfactory/psalm:"$PSALM_VERSION" \
-                      --label org.opencontainers.image.source=https://github.com/webfactory/docker-psalm \
                       --build-arg PSALM_VERSION="$PSALM_VERSION" \
                       .
 
@@ -74,17 +71,23 @@ jobs:
                     docker buildx build \
                       --progress plain \
                       --cache-from=ghcr.io/webfactory/psalm:build-cache \
-                      --load \
                       --tag build \
                       --build-arg PSALM_VERSION="$PSALM_VERSION" \
-                      .
+                      --load .
                     
                     # Check "psalm --version" output
                     docker run --rm build --version | grep -q $PSALM_VERSION
 
             -   name: Push image to registry
                 run: |
-                    docker push ghcr.io/webfactory/psalm:"$PSALM_VERSION"
+                    docker buildx build \
+                      --progress plain \
+                      --platform=linux/amd64,linux/arm64 \
+                      --cache-from=ghcr.io/webfactory/psalm:build-cache \
+                      --tag ghcr.io/webfactory/psalm:"$PSALM_VERSION" \
+                      --label org.opencontainers.image.source=https://github.com/webfactory/docker-psalm \
+                      --build-arg PSALM_VERSION="$PSALM_VERSION" \
+                      --push .
 
         # Dear future me - once https://github.com/SmartsquareGmbH/delete-old-packages/issues/5 is resolved, use that
         # action to keep only the last 5 (or so) images.
