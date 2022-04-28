@@ -1,4 +1,4 @@
-FROM php:8-cli-alpine as build-extensions
+FROM php:8.0-cli-alpine as build-extensions
 RUN docker-php-ext-install pcntl posix
 
 FROM composer:2 as composer-fetch
