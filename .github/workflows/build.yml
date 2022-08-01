@@ -39,7 +39,7 @@ jobs:
             -   name: Determine Psalm version to build
                 run: |
                     if [[ -z "$PSALM_VERSION" ]]; then
-                      PSALM_VERSION=`curl -sL https://api.github.com/repos/vimeo/psalm/releases/latest | jq -r ".tag_name"`
+                      PSALM_VERSION=`curl -sL https://api.github.com/repos/vimeo/psalm/releases/latest | jq -r ".tag_name" | sed -e 's/^v//'`
                     fi
                     
                     if [[ "$PSALM_VERSION" == "null" ]]; then
