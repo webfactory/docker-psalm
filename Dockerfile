@@ -30,3 +30,5 @@ VOLUME ["/cache"]
 
 WORKDIR "/app"
 ENTRYPOINT ["/entrypoint.sh"]
+
+LABEL "org.opencontainers.image.source"="https://github.com/webfactory/docker-psalm"
