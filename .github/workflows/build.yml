@@ -36,15 +36,6 @@ jobs:
                     username: ${{ github.repository_owner }}
                     password: ${{ secrets.GITHUB_TOKEN }}
 
-            -   uses: smartsquaregmbh/delete-old-packages@v0.6.0
-                with:
-                    token: ${{ secrets.GITHUB_TOKEN }}
-                    organization: webfactory
-                    type: container
-                    keep: 5
-                    names: |
-                        psalm
-
             -   name: Determine Psalm version to build
                 run: |
                     if [[ -z "$PSALM_VERSION" ]]; then
