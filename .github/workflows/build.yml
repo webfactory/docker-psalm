@@ -9,8 +9,8 @@ on:
         branches:
             - main
 
-    schedule:
-        -   cron: 43 2 * * 0
+#    schedule:
+#        -   cron: 43 2 * * 0
 
     workflow_dispatch:
         inputs:
@@ -35,6 +35,15 @@ jobs:
                     registry: ghcr.io
                     username: ${{ github.repository_owner }}
                     password: ${{ secrets.GITHUB_TOKEN }}
+
+            -   uses: smartsquaregmbh/delete-old-packages@v0.6.0
+                with:
+                    token: ${{ secrets.GITHUB_TOKEN }}
+                    organization: webfactory
+                    type: container
+                    keep: 5
+                    names: |
+                        psalm
 
             -   name: Determine Psalm version to build
                 run: |
@@ -89,6 +98,3 @@ jobs:
                       --label org.opencontainers.image.source=https://github.com/webfactory/docker-psalm \
                       --build-arg PSALM_VERSION="$PSALM_VERSION" \
                       --push .
-
-        # Dear future me - once https://github.com/SmartsquareGmbH/delete-old-packages/issues/5 is resolved, use that
-        # action to keep only the last 5 (or so) images.
