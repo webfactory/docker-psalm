@@ -1,4 +1,4 @@
 #!/bin/sh -l
 set -e
 
-psalm --threads=$(nproc) "$@"
+/composer/vendor/bin/psalm --threads=$(nproc) "$@"

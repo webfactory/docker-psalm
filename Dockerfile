@@ -12,8 +12,6 @@ COPY --from=build-extensions /usr/local/lib/php /usr/local/lib/php
 COPY --from=build-extensions /usr/local/etc/php /usr/local/etc/php
 COPY --from=composer-fetch /composer /composer
 
-ENV PATH /composer/vendor/bin:${PATH}
-
 # Satisfy Psalm's quest for a composer autoloader (with a symlink that disappears once a volume is mounted at /app)
 
 RUN mkdir /app && ln -s /composer/vendor/ /app/vendor
