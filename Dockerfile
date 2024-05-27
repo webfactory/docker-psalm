@@ -1,5 +1,5 @@
 FROM php:8-cli-alpine as build-extensions
-RUN docker-php-ext-install pcntl posix
+RUN docker-php-ext-install pcntl posix intl
 
 FROM composer:2 as composer-fetch
 ARG PSALM_VERSION=*
