@@ -10,6 +10,7 @@ RUN composer global require "vimeo/psalm:$PSALM_VERSION" "psalm/plugin-symfony:*
 
 FROM php:8-cli-alpine as runtime
 
+RUN apk add icu
 COPY --from=build-extensions /usr/local/lib/php /usr/local/lib/php
 COPY --from=build-extensions /usr/local/etc/php /usr/local/etc/php
 COPY --from=composer-fetch /composer /composer
