@@ -64,7 +64,7 @@ jobs:
                 uses: docker/build-push-action@v6
                 with:
                     load: true
-                    tag: build
+                    tags: build
                     build-args: PSALM_VERSION=${{ env.PSALM_VERSION }}
 
             -   name: Run smoke tests
