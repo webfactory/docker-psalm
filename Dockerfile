@@ -1,14 +1,14 @@
-FROM php:8-cli-alpine as build-extensions
+FROM php:8-cli-alpine AS build-extensions
 RUN docker-php-ext-install pcntl posix
 RUN apk add icu-dev 
 RUN docker-php-ext-configure intl && docker-php-ext-install intl
 
-FROM composer:2 as composer-fetch
+FROM composer:2 AS composer-fetch
 ARG PSALM_VERSION=*
 ENV COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_MEMORY_LIMIT=-1 COMPOSER_NO_INTERACTION=1 COMPOSER_HOME="/composer"
 RUN composer global require "vimeo/psalm:$PSALM_VERSION" "psalm/plugin-symfony:*" "psalm/plugin-phpunit:*" "weirdan/doctrine-psalm-plugin:*"
 
-FROM php:8-cli-alpine as runtime
+FROM php:8-cli-alpine AS runtime
 
 RUN apk add icu
 COPY --from=build-extensions /usr/local/lib/php /usr/local/lib/php
@@ -26,7 +26,7 @@ RUN chmod +x /entrypoint.sh
 
 # Package container
 
-ENV XDG_CACHE_HOME /cache
+ENV XDG_CACHE_HOME=/cache
 VOLUME ["/cache"]
 
 WORKDIR "/app"
