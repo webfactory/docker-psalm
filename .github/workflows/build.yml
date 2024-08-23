@@ -8,6 +8,7 @@ on:
     push:
         branches:
             - main
+    pull_request:
 
     schedule:
         -   cron: 43 2 * * 0
@@ -56,8 +57,7 @@ jobs:
                     platforms: linux/amd64,linux/arm64
                     cache-from: type=gha
                     cache-to: type=gha,mode=max
-                    build-args:
-                        PSALM_VERSION: ${{ env.PSALM_VERSION }}
+                    build-args: PSALM_VERSION=${{ env.PSALM_VERSION }}
 
             -   name: Load image for current platform into local Docker
                 # see https://github.com/docker/buildx/issues/59 for reason/limitation
@@ -65,8 +65,7 @@ jobs:
                 with:
                     load: true
                     tag: build
-                    build-args:
-                        PSALM_VERSION: ${{ env.PSALM_VERSION }}
+                    build-args: PSALM_VERSION=${{ env.PSALM_VERSION }}
 
             -   name: Run smoke tests
                 run: |
@@ -79,9 +78,6 @@ jobs:
                 with:
                     platforms: linux/amd64,linux/arm64
                     push: true
-                    tags:
-                        - ghcr.io/webfactory/psalm:${{ env.PSALM_VERSION }}
-                    labels:
-                        org.opencontainers.image.source: https://github.com/webfactory/docker-psalm
-                    build-args:
-                        PSALM_VERSION: ${{ env.PSALM_VERSION }}
+                    tags: ghcr.io/webfactory/psalm:${{ env.PSALM_VERSION }}
+                    labels: org.opencontainers.image.source=https://github.com/webfactory/docker-psalm
+                    build-args: PSALM_VERSION=${{ env.PSALM_VERSION }}
