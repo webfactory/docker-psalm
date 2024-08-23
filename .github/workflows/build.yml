@@ -67,6 +67,9 @@ jobs:
                     cache-from: type=gha
                     load: true
                     tags: build
+                env:
+                    DOCKER_BUILD_SUMMARY: false
+                    DOCKER_BUILD_RECORD_UPLOAD: false
 
             -   name: Run smoke tests
                 run: |
@@ -83,3 +86,6 @@ jobs:
                     push: true
                     tags: ghcr.io/webfactory/psalm:${{ env.PSALM_VERSION }}
                     labels: org.opencontainers.image.source=https://github.com/webfactory/docker-psalm
+                env:
+                    DOCKER_BUILD_SUMMARY: false
+                    DOCKER_BUILD_RECORD_UPLOAD: false
