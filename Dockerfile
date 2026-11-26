@@ -1,7 +1,7 @@
 FROM php:8-cli-alpine AS build-extensions
-RUN docker-php-ext-install pcntl posix
-RUN apk add icu-dev 
-RUN docker-php-ext-configure intl && docker-php-ext-install intl
+RUN apk add --no-cache oniguruma-dev icu-dev \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl pcntl posix mbstring
 
 FROM composer:2 AS composer-fetch
 ARG PSALM_VERSION=*
@@ -10,7 +10,7 @@ RUN composer global require "vimeo/psalm:$PSALM_VERSION" "psalm/plugin-symfony:*
 
 FROM php:8-cli-alpine AS runtime
 
-RUN apk add icu
+RUN apk add --no-cache icu oniguruma
 COPY --from=build-extensions /usr/local/lib/php /usr/local/lib/php
 COPY --from=build-extensions /usr/local/etc/php /usr/local/etc/php
 COPY --from=composer-fetch /composer /composer
